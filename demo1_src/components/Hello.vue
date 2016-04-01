@@ -3,8 +3,9 @@
     <h1 class="title">{{ msg }}</h1>
     <ul class="cmt-list">
       <li v-for="item in list">
+        <img class="cmt-list-faceimg" v-bind:src="item.faceurl" alt="">
         <span>{{ item.username }}</span>
-        <p  class="des" v-on:click="showIndex()" v-html="item.content"></p>
+        <p  class="cmt-list-des" v-on:click="showIndex()" v-html="item.content"></p>
         <p>{{ item.pubdate }}</p>
       </li>
     </ul>
@@ -25,7 +26,7 @@ export default {
       list: null
     }
   },
-  created () {
+  ready () {
     var _this = this
     $.ajax({
       url: 'http://test.magapp.cc/pro_index_groupdetail',
@@ -34,16 +35,16 @@ export default {
       },
       type: 'GET',
       dataType: 'json',
-      success: function (data) {
+      success (data) {
         _this.$data.list = data.list.comment.newest
       },
-      error: function (err) {
+      error (err) {
         console.log(err)
       }
     })
   },
   methods: {
-    showIndex: function () {
+    showIndex () {
       console.log('you click me')
     }
   }
@@ -52,10 +53,11 @@ export default {
 </script>
 
 <style lang="less">
-@import '../assets/less/variables.less';
+  @import '../assets/less/variables.less';
 
-.title{ color:@theme-color;}
-.cmt-list li{ padding: 10px 0; }
-.cmt-list .des{ font-size: 14px; line-height: 1.6; }
-.cmt-list .smile{ width:24px; vertical-align: text-bottom; }
+  .title{ display:flex; color:@theme-color;}
+  .cmt-list li{ padding: 10px 0; }
+  .cmt-list-faceimg{ width:32px; height:32px; border-radius: 16px; }
+  .cmt-list-des{ font-size: 14px; line-height: 1.6; }
+  .cmt-list .smile{ width:24px; vertical-align: text-bottom; }
 </style>
